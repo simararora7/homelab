@@ -9,7 +9,7 @@ homeassistant/*
 mosquitto/*
 !mosquitto/config/mosquitto.conf
 
-node-red/*
+node_red/*
 
 portainer/*
 
