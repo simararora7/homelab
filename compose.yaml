@@ -70,6 +70,17 @@ services:
       - ./node_red:/data
     environment:
       TZ: "Asia/Dubai"
+  
+  matter-server:
+    container_name: matter-server
+    image: ghcr.io/home-assistant-libs/python-matter-server:stable
+    restart: always
+    network_mode: host
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - ./matter-server:/data/
+      - /run/dbus:/run/dbus:ro
 
 networks:
   localnet:

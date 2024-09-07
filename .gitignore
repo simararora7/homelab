@@ -16,3 +16,5 @@ portainer/*
 zigbee2mqtt/*
 
 !zigbee2mqtt/configuration.yaml
+
+matter-server/*
