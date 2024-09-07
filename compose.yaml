@@ -1,0 +1,76 @@
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    restart: always
+    networks:
+      - localnet
+    ports:
+      - 9000:9000
+    volumes:
+      - ./portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: "Asia/Dubai"
+
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    restart: always
+    network_mode: host
+    privileged: true
+    volumes:
+      - ./homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    environment:
+      TZ: "Asia/Dubai"
+  
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    restart: always
+    networks:
+      - localnet
+    ports:
+      - "1883:1883"
+      - "1884:1884"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    environment:
+      TZ: "Asia/Dubai"
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: always
+    networks:
+      - localnet
+    ports:
+      - 8080:8080
+    volumes:
+      - ./zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    environment:
+      TZ: "Asia/Dubai"
+    devices:
+      - /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_1adaccbe4ee7ed11aa466c6262c613ac-if00-port0:/dev/ttyACM0
+  
+  node-red:
+    container_name: "node-red"
+    image: "nodered/node-red"
+    restart: always
+    networks:
+      - localnet
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./node_red:/data
+    environment:
+      TZ: "Asia/Dubai"
+
+networks:
+  localnet:
+    driver: bridge

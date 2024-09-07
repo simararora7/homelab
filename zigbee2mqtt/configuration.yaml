@@ -1,0 +1,45 @@
+homeassistant: false
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://192.168.1.158:1883
+  user: mosquitto-hass
+  password: sim1017
+serial:
+  port: /dev/ttyACM0
+  adapter: ezsp
+advanced:
+  network_key:
+    - 238
+    - 34
+    - 41
+    - 128
+    - 149
+    - 92
+    - 9
+    - 210
+    - 126
+    - 186
+    - 249
+    - 247
+    - 107
+    - 210
+    - 34
+    - 228
+  pan_id: 49985
+  ext_pan_id:
+    - 117
+    - 98
+    - 37
+    - 126
+    - 155
+    - 254
+    - 32
+    - 245
+  homeassistant_legacy_entity_attributes: false
+  legacy_api: false
+  legacy_availability_payload: false
+device_options:
+  legacy: false
+frontend:
+  port: 8080
+  host: 0.0.0.0
