@@ -82,6 +82,67 @@ services:
       - ./matter-server:/data/
       - /run/dbus:/run/dbus:ro
 
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    restart: always
+    environment:
+      - ServerIP=192.168.1.158
+      - DNS1=1.1.1.1
+      - DNS2=1.0.0.1
+    networks:
+      - localnet
+    ports:
+      - "192.168.1.158:85:80"
+      - "192.168.1.158:53:53/tcp"
+      - "192.168.1.158:53:53/udp"
+      - "192.168.1.158:443:443"
+    volumes:
+      - ./pihole:/etc/pihole/
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    cap_add:
+      - NET_ADMIN
+  
+  netdata:
+    image: netdata/netdata
+    container_name: netdata
+    pid: host
+    network_mode: host
+    restart: always
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - ./netdataconfig:/etc/netdata
+      - ./netdatalib:/var/lib/netdata
+      - ./netdatacache:/var/cache/netdata
+      - /:/host/root:ro,rslave
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/log:/host/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    restart: always
+    networks:
+      - localnet
+    ports:
+      - '80:80'
+      - '81:81'
+    volumes:
+      - ./nginx_proxy_manager/data:/data
+      - ./nginx_proxy_manager/letsencrypt:/etc/letsencrypt
+
 networks:
   localnet:
     driver: bridge
