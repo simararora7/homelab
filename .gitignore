@@ -22,6 +22,8 @@ matter-server/*
 netdata/*
 
 pihole/*
+!pihole/adlists.list
+!pihole/customg.list
 
 nginx_proxy_manager/*
-!nginx_proxy_manager/data/nginx/proxy_host/*
+!nginx_proxy_manager/data/nginx/proxy_host/*.conf
