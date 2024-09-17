@@ -24,3 +24,4 @@ netdata/*
 pihole/*
 
 nginx_proxy_manager/*
+!nginx_proxy_manager/data/nginx/proxy_host/*
